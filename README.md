@@ -16,9 +16,10 @@ This lab runs in my own Azure free-trial subscription. It is a learning project,
 - Registered the resource providers Sentinel needs
 - Assigned the Azure Policy that sends Azure Activity logs to the workspace, with a system-assigned managed identity
 - Set a monthly cost budget with email alerts
+- - Connected Azure Activity logs to the workspace with an Activity log diagnostic setting, and confirmed the data arrives with KQL
 
 ## In progress
-- Confirming Azure Activity data arrives (KQL: AzureActivity | take 10)
+
 - Microsoft Entra ID connector
 - Analytics rules and a workbook (dashboard)
 
@@ -29,7 +30,12 @@ Problems I hit and how I fixed them:
 2. Policy assignment for the Azure Activity connector failed. Cause: the policy needs a managed identity because it deploys settings. Fix: used a system-assigned managed identity with the suggested roles.
 3. The remediation task failed. Cause: Microsoft.PolicyInsights was not registered. Fix: registered it and re-ran the remediation.
 4. KQL gave a syntax error. Cause: only line 2 was highlighted, so Run executed just that part. Fix: deselected the text before running.
+5. The Azure Activity export did not appear after the policy assignment. Fix: created the diagnostic setting manually under Monitor > Activity log > Export Activity Logs, sending all categories to law-sentinel-lab. (The first save failed because the setting name ended in a full stop.)
+## Evidence
 
+Azure Activity logs arriving in the Sentinel workspace (KQL: AzureActivity | take 10):
+
+![Azure Activity query result](azure-activity-query.png.png)
 ## Notes
 - Screenshots have IDs, emails and tenant names removed.
 - Trial credit and the Sentinel free trial end in November 2026, so the resources will be deleted afterwards and the code and notes kept here.
